@@ -1,8 +1,10 @@
 terraform {
   required_version = ">= 0.12.20"
   backend "s3" {
-    workspace_key_prefix = "workspace"
-    encrypt              = true
+    bucket  = "vo-vsa-twitter-state-bucket"
+    key     = "terraform.tfstate"
+    encrypt = true
+    region  = "eu-west-1"
   }
 }
 
@@ -16,8 +18,8 @@ provider "aws" {
 
 # Alternate workspace account region necessary for https certificates only.
 provider "aws" {
-  alias   = "us_east_1"
-  region  = "us-east-1"
+  alias   = "us_west_1"
+  region  = "us-west-1"
   version = "2.70.0"
 }
 
@@ -40,19 +42,19 @@ locals {
     acceptance     = "uat."
     production     = ""
   }
-  domain               = "sentiment-flanders.radix.sh"
+  domain               = "sentiment-flanders.sh"
   api_domain           = "api.${local.domain}"
   workspace_domain     = "${local.workspace_url_prefixes[terraform.workspace]}${local.domain}"
   workspace_api_domain = "${local.workspace_url_prefixes[terraform.workspace]}${local.api_domain}"
 }
 
-# Create a hosted zone for [ftr.][api.]sentiment-flanders.radix.sh.
+# Create a hosted zone for [ftr.][api.]sentiment-flanders.sh.
 #
 # Important, you must create two NS records per workspace on the organisation account for the
 # domains to work:
-# - Hosted zone: radix.sh
-# - NS record key: [ftr.][api.]sentiment-flanders.radix.sh.
-# - NS record value: workspace account [ftr.][api.]sentiment-flanders.radix.sh nameservers
+# - Hosted zone: sentiment-flanders.sh
+# - NS record key: [ftr.][api.]sentiment-flanders.sh.
+# - NS record value: workspace account [ftr.][api.]sentiment-flanders.sh nameservers
 resource "aws_route53_zone" "workspace_domain" {
   name = local.workspace_domain
 }
@@ -62,10 +64,12 @@ resource "aws_route53_zone" "workspace_api_domain" {
 
 # Package-specific resources.
 
-# Create a HTTPS certificate for [ftr.][api.]sentiment-flanders.radix.sh.
+# Create a HTTPS certificate for [ftr.][api.]sentiment-flanders.sh.
 module "https_certificate" {
-  source    = "./modules/https_certificate"
-  providers = { aws = aws.us_east_1 }
+  source = "./modules/https_certificate"
+  providers = {
+    aws = aws.us_west_1
+  }
   domains = [
     {
       domain  = local.workspace_domain
@@ -131,14 +135,15 @@ module "runtime_config" {
 #  3. Create job definition for jobs
 #  4. Schedule the jobs on a given cron schedule
 module "scheduled_batch_job" {
-  source               = "./modules/scheduled_batch_job"
-  name                 = "sentiment-flanders"
-  max_vcpus            = 8
-  schedule_expression  = "cron(0 2 * * ? *)" # 02:00 AM (UTC) every day (Belgium; 3AM Winter time / 4AM Summer time)
+  source              = "./modules/scheduled_batch_job"
+  name                = "sentiment-flanders"
+  max_vcpus           = 8
+  schedule_expression = "cron(0 2 * * ? *)"
+  # 02:00 AM (UTC) every day (Belgium; 3AM Winter time / 4AM Summer time)
   container_properties = <<CONTAINER_PROPERTIES
 {
     "command": ["update"],
-    "image": "962194010810.dkr.ecr.eu-west-1.amazonaws.com/sentiment-flanders:latest",
+    "image": "840374773521.dkr.ecr.eu-west-1.amazonaws.com/sentiment-flanders:latest",
     "memory": 4096,
     "vcpus": 8
 }

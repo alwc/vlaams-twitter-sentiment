@@ -1,6 +1,6 @@
 # Sentiment Flanders
 
-A Python package that predicts the sentiment of Flemish Tweets, developed by [Radix](http://radix.ai).
+Backend of the Twitter-base sentiment statistic, developed by [Radix](http://radix.ai).
 
 * **VSA:** Reusens Michael <michael.reusens@vlaanderen.be>
 * **Radix:**      Ruben Broekx <ruben@radix.ai>

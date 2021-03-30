@@ -72,6 +72,7 @@ def terraform_init_and_select_workspace(c: Context) -> None:
     """Initialise Terraform and select the workspace corresponding to the active git branch."""
     # Delete the local Terraform state to avoid issues.
     c.run("rm -rf .terraform/modules/ .terraform/environment .terraform/*.tfstate", hide="out")
+
     # Select the Terraform workspace.
     c.run(
         f"terraform init "
@@ -106,6 +107,7 @@ def deploy(c, force=False):
         ).get("Parameter", {}).get("Value", "{}")).get("terraform_state_hash", "undefined")
     except ClientError:
         deployed_terraform_state = "undefined"
+
     # Determine the desired Terraform state.
     with c.cd(TERRAFORM_PATH):
         with open(TFVARS_FILEPATH) as tfvars:
@@ -119,6 +121,7 @@ def deploy(c, force=False):
             r"sort | shasum | cut -c -8",
             hide="out",
         ).stdout.strip()
+
     # Deploy with Terraform if the desired state is different from the deployed state.
     if not force and desired_terraform_state == deployed_terraform_state:
         logger.info("Infrastructure is up to date!")
@@ -129,6 +132,7 @@ def deploy(c, force=False):
         with c.cd(TERRAFORM_PATH):
             # Select the Terraform workspace.
             terraform_init_and_select_workspace(c)
+
             # Generate deployment info to include in the runtime config.
             deploy = {
                 "deploy_id": terraform_state_name(c),
@@ -138,11 +142,13 @@ def deploy(c, force=False):
                 "gitlab_pipeline_url": os.environ.get("CI_PIPELINE_URL", ""),
                 "terraform_state_hash": desired_terraform_state,
             }
+
             # TODO: Uncomment to remove previous compute environment
             # c.run(
             #     f"terraform state rm 'module.scheduled_batch_job.module.batch_compute_environment.aws_batch_compute_environment.compute_environment' ",
             #     env=aws.ENV,
             # )
+
             # Apply the changes.
             c.run(
                 f"terraform apply -input=false -auto-approve "

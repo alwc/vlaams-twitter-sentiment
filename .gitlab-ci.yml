@@ -1,8 +1,8 @@
 stages:
   - build
-  - test
+#  - test
   - deploy
-  - destroy
+#  - destroy
 
 # Extends
 # https://docs.gitlab.com/ee/ci/yaml/#extends
@@ -41,16 +41,16 @@ stages:
     - docker:dind
   stage: build
   script:
-    - echo -n $CI_JOB_TOKEN | docker login --username gitlab-ci-token --password-stdin $CI_REGISTRY
-    - docker build --build-arg GIT_TOKEN=$CI_JOB_TOKEN --build-arg ENVIRONMENT=$CI_ENVIRONMENT_NAME --tag $CI_REGISTRY_IMAGE:$CI_ENVIRONMENT_NAME --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --target build-image .
-    - docker push $CI_REGISTRY_IMAGE:$CI_ENVIRONMENT_NAME
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-    - echo -n $CI_JOB_TOKEN | docker login --username gitlab-ci-token --password-stdin $CI_REGISTRY
-    - docker build --build-arg GIT_TOKEN=$CI_JOB_TOKEN --build-arg TWITTER_CONSUMER_KEY=$TWITTER_CONSUMER_KEY --build-arg TWITTER_CONSUMER_SECRET=$TWITTER_CONSUMER_SECRET --build-arg TWITTER_ACCESS_TOKEN_KEY=$TWITTER_ACCESS_TOKEN_KEY --build-arg TWITTER_ACCESS_TOKEN_SECRET=$TWITTER_ACCESS_TOKEN_SECRET --tag $CI_REGISTRY_IMAGE/batch:$CI_ENVIRONMENT_NAME --target app-image .
-    - docker push $CI_REGISTRY_IMAGE/batch:$CI_ENVIRONMENT_NAME
+#    - echo -n $CI_JOB_TOKEN | docker login --username gitlab-ci-token --password-stdin $CI_REGISTRY
+#    - docker build --build-arg GIT_TOKEN=$CI_JOB_TOKEN --build-arg ENVIRONMENT=$CI_ENVIRONMENT_NAME --tag $CI_REGISTRY_IMAGE:$CI_ENVIRONMENT_NAME --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --target build-image .
+#    - docker push $CI_REGISTRY_IMAGE:$CI_ENVIRONMENT_NAME
+#    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+#    - echo -n $CI_JOB_TOKEN | docker login --username gitlab-ci-token --password-stdin $CI_REGISTRY
+#    - docker build --build-arg GIT_TOKEN=$CI_JOB_TOKEN --build-arg TWITTER_CONSUMER_KEY=$TWITTER_CONSUMER_KEY --build-arg TWITTER_CONSUMER_SECRET=$TWITTER_CONSUMER_SECRET --build-arg TWITTER_ACCESS_TOKEN_KEY=$TWITTER_ACCESS_TOKEN_KEY --build-arg TWITTER_ACCESS_TOKEN_SECRET=$TWITTER_ACCESS_TOKEN_SECRET --tag $CI_REGISTRY_IMAGE/batch:$CI_ENVIRONMENT_NAME --target app-image .
+#    - docker push $CI_REGISTRY_IMAGE/batch:$CI_ENVIRONMENT_NAME
   only:
     changes:
-      - .gitlab-ci.yml
+#      - .gitlab-ci.yml
       - Dockerfile
       - environment*.yml
 
@@ -84,40 +84,40 @@ Build CI image (production):
 
 # Test
 
-.test:
-  stage: test
-  script:
-    - invoke sentry.create-release
-    - invoke lint
-    - invoke test
-  coverage: '/^TOTAL.*\s+(\d+\%)$/'
-  artifacts:
-    # expose_as: Test artifacts
-    when: always
-    untracked: true
-    reports:
-      junit:
-        - reports/**/*.xml
-
-Test package (feature):
-  extends:
-    - .feature
-    - .test
-
-Test package (development):
-  extends:
-    - .development
-    - .test
-
-Test package (acceptance):
-  extends:
-    - .acceptance
-    - .test
-
-Test package (production):
-  extends:
-    - .production
-    - .test
+#.test:
+#  stage: test
+#  script:
+#    - invoke sentry.create-release
+#    - invoke lint
+#    - invoke test
+#  coverage: '/^TOTAL.*\s+(\d+\%)$/'
+#  artifacts:
+#    # expose_as: Test artifacts
+#    when: always
+#    untracked: true
+#    reports:
+#      junit:
+#        - reports/**/*.xml
+#
+#Test package (feature):
+#  extends:
+#    - .feature
+#    - .test
+#
+#Test package (development):
+#  extends:
+#    - .development
+#    - .test
+#
+#Test package (acceptance):
+#  extends:
+#    - .acceptance
+#    - .test
+#
+#Test package (production):
+#  extends:
+#    - .production
+#    - .test
 
 # Deploy
 
@@ -168,16 +168,16 @@ Deploy package (production):
 # Destroy
 # https://docs.gitlab.com/ee/ci/yaml/README.html#protecting-manual-jobs-premium
 
-.destroy:
-  stage: destroy
-  script:
-    - invoke serverless.destroy --no-dry-run
-    - invoke terraform.destroy --no-dry-run
-  when: manual
-
-Destroy deployment (feature):
-  environment:
-    name: feature
-  extends:
-    - .feature
-    - .destroy
+#.destroy:
+#  stage: destroy
+#  script:
+#    - invoke serverless.destroy --no-dry-run
+#    - invoke terraform.destroy --no-dry-run
+#  when: manual
+#
+#Destroy deployment (feature):
+#  environment:
+#    name: feature
+#  extends:
+#    - .feature
+#    - .destroy

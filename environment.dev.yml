@@ -38,6 +38,5 @@ dependencies:
       - invoke
       - portray
       - emoji~=0.6.0
-      - torch~=1.7.0
       - git+https://github.com/tweepy/tweepy@master
-      - git+http://radix:eFr5jZgRGy8zYahFKbGv@gitlab.com/radix-ai/statistiek-vlaanderen/twitter-sentiment-classifier.git
+      - pip install git+https://github.com/vsa-datascience/vlaams-twitter-sentiment-model.git

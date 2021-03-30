@@ -10,11 +10,11 @@ phases:
   pre_build:
     commands:
       - pwd
-      - terraform init
-      - terraform validate
+      - terraform -chdir=terraform init
+      - terraform -chdir=terraform validate
   build:
     commands:
-        - terraform apply -auto-approve
+      - terraform -chdir=terraform apply -auto-approve
   post_build:
     commands:
-       - echo "TF applied" 
+       - echo "TF applied"

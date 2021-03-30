@@ -23,13 +23,13 @@
                 "assume_role": "1",
                 "single_deployment_per_workspace": "1",
                 "region": "eu-west-1",
-                "organisation_account": "962194010810",
+                "organisation_account": "840374773521",
                 "workspace_accounts": {
-                    "infrastructure": "962194010810",
-                    "feature": "962194010810",
-                    "development": "962194010810",
-                    "acceptance": "962194010810",
-                    "production": "962194010810"
+                    "infrastructure": "840374773521",
+                    "feature": "840374773521",
+                    "development": "840374773521",
+                    "acceptance": "840374773521",
+                    "production": "840374773521"
                 },
                 "role": "OrganizationAccountAccessRole"
             },
