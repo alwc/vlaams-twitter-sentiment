@@ -33,75 +33,75 @@ locals {
   workspace_account = var.workspace_accounts[terraform.workspace]
 }
 
-//# Domain name local variables.
-//locals {
-//  workspace_url_prefixes = {
-//    infrastructure = "inf."
-//    feature        = "ftr."
-//    development    = "dev."
-//    acceptance     = "uat."
-//    production     = ""
-//    default        = ""
-//  }
-//  domain               = "sentiment-flanders.sh"
-//  api_domain           = "api.${local.domain}"
-//  workspace_domain     = "${local.workspace_url_prefixes[terraform.workspace]}${local.domain}"
-//  workspace_api_domain = "${local.workspace_url_prefixes[terraform.workspace]}${local.api_domain}"
-//}
-//
-//# Create a hosted zone for [ftr.][api.]sentiment-flanders.sh.
-//#
-//# Important, you must create two NS records per workspace on the organisation account for the
-//# domains to work:
-//# - Hosted zone: sentiment-flanders.sh
-//# - NS record key: [ftr.][api.]sentiment-flanders.sh.
-//# - NS record value: workspace account [ftr.][api.]sentiment-flanders.sh nameservers
-//resource "aws_route53_zone" "workspace_domain" {
-//  name = local.workspace_domain
-//}
-//resource "aws_route53_zone" "workspace_api_domain" {
-//  name = local.workspace_api_domain
-//}
-//
-//# Package-specific resources.
-//
-//# Create a HTTPS certificate for [ftr.][api.]sentiment-flanders.sh.
-//module "https_certificate" {
-//  source = "./modules/https_certificate"
-//  providers = {
-//    aws = aws.us_east_1
-//  }
-//  domains = [
-//    {
-//      domain  = local.workspace_domain
-//      zone_id = aws_route53_zone.workspace_domain.zone_id
-//    },
-//    {
-//      domain  = local.workspace_api_domain
-//      zone_id = aws_route53_zone.workspace_api_domain.zone_id
-//    }
-//  ]
-//}
-//
-//# Create a CloudFront CDN that caches, compresses, and routes traffic to S3 or to Lambda.
-//module "cloudfront_cdn" {
-//  source            = "./modules/cloudfront_distribution"
-//  domain            = local.workspace_domain
-//  https_certificate = module.https_certificate.https_certificate
-//  hosted_zone       = aws_route53_zone.workspace_domain.zone_id
-//  origins = {
-//    "${module.s3_website_bucket.website_endpoint}" : {
-//      path_pattern : null,
-//      origin_type : "S3_WEBSITE",
-//      function_associations : []
-//    },
-//    "${local.workspace_api_domain}" : {
-//      path_pattern : "/api*",
-//      origin_type : "API_GATEWAY",
-//      function_associations : []
-//    }
-//  }
-//}
+# Domain name local variables.
+locals {
+  workspace_url_prefixes = {
+    infrastructure = "inf."
+    feature        = "ftr."
+    development    = "dev."
+    acceptance     = "uat."
+    production     = ""
+    default        = ""
+  }
+  domain               = "sentiment-flanders.cloudar.be"
+  api_domain           = "api.${local.domain}"
+  workspace_domain     = "${local.workspace_url_prefixes[terraform.workspace]}${local.domain}"
+  workspace_api_domain = "${local.workspace_url_prefixes[terraform.workspace]}${local.api_domain}"
+}
+
+# Create a hosted zone for [ftr.][api.]sentiment-flanders.sh.
+#
+# Important, you must create two NS records per workspace on the organisation account for the
+# domains to work:
+# - Hosted zone: sentiment-flanders.sh
+# - NS record key: [ftr.][api.]sentiment-flanders.sh.
+# - NS record value: workspace account [ftr.][api.]sentiment-flanders.sh nameservers
+resource "aws_route53_zone" "workspace_domain" {
+  name = local.workspace_domain
+}
+resource "aws_route53_zone" "workspace_api_domain" {
+  name = local.workspace_api_domain
+}
+
+# Package-specific resources.
+
+# Create a HTTPS certificate for [ftr.][api.]sentiment-flanders.sh.
+module "https_certificate" {
+  source = "./modules/https_certificate"
+  providers = {
+    aws = aws.us_east_1
+  }
+  domains = [
+    {
+      domain  = local.workspace_domain
+      zone_id = aws_route53_zone.workspace_domain.zone_id
+    },
+    {
+      domain  = local.workspace_api_domain
+      zone_id = aws_route53_zone.workspace_api_domain.zone_id
+    }
+  ]
+}
+
+# Create a CloudFront CDN that caches, compresses, and routes traffic to S3 or to Lambda.
+module "cloudfront_cdn" {
+  source            = "./modules/cloudfront_distribution"
+  domain            = local.workspace_domain
+  https_certificate = module.https_certificate.https_certificate
+  hosted_zone       = aws_route53_zone.workspace_domain.zone_id
+  origins = {
+    "${module.s3_website_bucket.website_endpoint}" : {
+      path_pattern : null,
+      origin_type : "S3_WEBSITE",
+      function_associations : []
+    },
+    "${local.workspace_api_domain}" : {
+      path_pattern : "/api*",
+      origin_type : "API_GATEWAY",
+      function_associations : []
+    }
+  }
+}
 
 # Create an S3 website bucket to host the static assets.
 module "s3_website_bucket" {
@@ -117,14 +117,14 @@ module "s3_data_bucket" {
   website     = false
 }
 
-//# Create the serverless.yml file needed to deploy with Serverless.
-//module "serverless_yml" {
-//  source            = "./modules/serverless_yml"
-//  region            = var.region
-//  domain            = local.workspace_api_domain
-//  hosted_zone       = aws_route53_zone.workspace_api_domain.zone_id
-//  https_certificate = module.https_certificate.https_certificate
-//}
+# Create the serverless.yml file needed to deploy with Serverless.
+module "serverless_yml" {
+  source            = "./modules/serverless_yml"
+  region            = var.region
+  domain            = local.workspace_api_domain
+  hosted_zone       = aws_route53_zone.workspace_api_domain.zone_id
+  https_certificate = module.https_certificate.https_certificate
+}
 
 # Store runtime configuration for the Python package.
 module "runtime_config" {
