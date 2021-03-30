@@ -112,10 +112,9 @@ module "s3_website_bucket" {
 
 # Create an private S3 data bucket to backup retrieved Twitter data
 module "s3_data_bucket" {
-  source                  = "./modules/s3_bucket"
-  bucket_name             = "${terraform.workspace}-${var.package-slug}-data"
-  website                 = true
-  restrict_public_buckets = true
+  source      = "./modules/s3_bucket"
+  bucket_name = "${terraform.workspace}-${var.package-slug}-data"
+  website     = false
 }
 
 # Create the serverless.yml file needed to deploy with Serverless.
