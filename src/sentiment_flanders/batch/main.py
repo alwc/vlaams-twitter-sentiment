@@ -52,7 +52,7 @@ def fetch_and_process(
                 os.environ[k] = v
 
     # Get all (16) timestamps for which a fetch is performed
-    timestamps = get_ending_timestamps()
+    timestamps = get_ending_timestamps()[:1]  # TODO: To experiment!
 
     # Fetch all entries
     tweets = []

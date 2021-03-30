@@ -5,11 +5,11 @@ service: "sentiment-flanders"
 provider:
   name: aws
   runtime: python3.8
-  stage: $${opt:stage, "${workspace}"}
-  region: $${opt:region, "${region}"}
+  stage: ${opt:stage, "default"}
+  region: ${opt:region, "eu-west-1"}
   role: lambdaRole
   environment:
-    WORKSPACE: $${self:provider.stage}
+    WORKSPACE: ${self:provider.stage}
   memorySize: 512
   timeout: 10
   provisionedConcurrency: 0
@@ -29,9 +29,9 @@ plugins:
 
 custom:
   customDomain:
-    domainName: ${domain}
-    certificateArn: ${https_certificate}
-    hostedZoneId: ${hosted_zone}
+    domainName: api.sentiment-flanders.cloudar.be
+    certificateArn: arn:aws:acm:us-east-1:840374773521:certificate/05a0338a-52c6-480d-8352-b62c8d950ca6
+    hostedZoneId: Z022330512YQ8VIKH27PB
     createRoute53Record: true
     securityPolicy: tls_1_2
   pythonRequirements:
