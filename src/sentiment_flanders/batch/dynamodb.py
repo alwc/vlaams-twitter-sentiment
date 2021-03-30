@@ -50,7 +50,7 @@ def put_batch(items: List[Dict[str, Any]]) -> None:
 
 
 def get_daily(from_date: datetime, to_date: datetime):
-    """Get all the daily statistics betweet the given dates (inclusive)."""
+    """Get all the daily statistics between the given dates (inclusive)."""
     table = get_table()
 
     # Create query

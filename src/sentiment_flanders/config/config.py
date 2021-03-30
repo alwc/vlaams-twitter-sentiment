@@ -30,10 +30,10 @@ def get_workspace() -> Optional[str]:
         logger.exception(f"Could not find a valid configuration to select the {workspace}")
         raise
     else:
-        if git_branch in ("infrastructure", "feature", "development", "acceptance", "production"):
+        if git_branch in ("infrastructure", "feature", "development", "acceptance", "production", "default"):
             workspace = git_branch
         elif git_branch == "master":
-            workspace = "production"
+            workspace = "default"
         elif "infra" in git_branch:
             workspace = "infrastructure"
         else:
