@@ -7,7 +7,7 @@ variable "package_slug" {
 variable "package-slug" {
   description = "The package name as a slug in kebab-case."
   type        = string
-  default     = "sentiment_flanders"
+  default     = "sentiment-flanders"
 }
 
 variable "package_version" {
