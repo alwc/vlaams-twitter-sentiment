@@ -69,7 +69,7 @@ resource "aws_route53_zone" "workspace_api_domain" {
 module "https_certificate" {
   source = "./modules/https_certificate"
   providers = {
-    aws = aws.us_west_1
+    aws = aws.us_east_1
   }
   domains = [
     {
