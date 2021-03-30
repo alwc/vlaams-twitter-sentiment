@@ -22,7 +22,7 @@ module "runtime_config" {
 */
 
 locals {
-  outputs = jsonencode(merge(var.deploy, var.config))
+  outputs = jsonencode(var.config)
 }
 
 # The runtime config is read by the package's config module if it is available on disk.
