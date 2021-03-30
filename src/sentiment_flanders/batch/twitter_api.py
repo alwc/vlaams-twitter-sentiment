@@ -114,7 +114,8 @@ def fetch(
     # Perform the query
     response = tweepy.Cursor(
             api.search_30_day,
-            environment_name="production",
+            label="production",  # Alternative naming for environment_name
+            # environment_name="production",   # TODO: Name change at tweepy?
             query=query,
             maxResults=500,  # Maximum number for premium
             # fromDate=enddate.strftime("%Y%m%d0001"),  # Do not go to previous day

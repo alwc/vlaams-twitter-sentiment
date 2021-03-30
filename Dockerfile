@@ -62,16 +62,6 @@ RUN printf '#!/usr/bin/env bash\n\
     \n\
     set -e\n\
     \n\
-    function run_dev {\n\
-    echo "Running Development Server on 0.0.0.0:8000"\n\
-    uvicorn "{{ cookiecutter.package_slug }}.api:app" --reload --log-level debug --host 0.0.0.0\n\
-    }\n\
-    \n\
-    function run_serve {\n\
-    echo "Running Production Server on 0.0.0.0:8000"\n\
-    gunicorn --bind 0.0.0.0 --workers=2 --timeout 30 --graceful-timeout 10 --keep-alive 10 --worker-tmp-dir /dev/shm --access-logfile - --log-file - -k uvicorn.workers.UvicornWorker "{{ cookiecutter.package_slug }}.api:app"\n\
-    }\n\
-    \n\
     function run_update {\n\
     echo "Running batch-job to fetch and process tweets"\n\
     python -m batch.main\n\
@@ -85,12 +75,6 @@ RUN printf '#!/usr/bin/env bash\n\
     }\n\
     \n\
     case "$1" in\n\
-    dev)\n\
-    run_dev\n\
-    ;;\n\
-    serve)\n\
-    run_serve\n\
-    ;;\n\
     update)\n\
     run_update\n\
     ;;\n\
@@ -107,17 +91,17 @@ ARG ENVIRONMENT
 ENV ENVIRONMENT $ENVIRONMENT
 ENV CI_COMMIT_REF_NAME $ENVIRONMENT
 
-ARG TWITTER_CONSUMER_KEY
-ENV TWITTER_CONSUMER_KEY $TWITTER_CONSUMER_KEY
-
-ARG TWITTER_CONSUMER_SECRET
-ENV TWITTER_CONSUMER_SECRET $TWITTER_CONSUMER_SECRET
-
-ARG TWITTER_ACCESS_TOKEN_KEY
-ENV TWITTER_ACCESS_TOKEN_KEY $TWITTER_ACCESS_TOKEN_KEY
-
-ARG TWITTER_ACCESS_TOKEN_SECRET
-ENV TWITTER_ACCESS_TOKEN_SECRET $TWITTER_ACCESS_TOKEN_SECRET
+#ARG TWITTER_CONSUMER_KEY
+#ENV TWITTER_CONSUMER_KEY $TWITTER_CONSUMER_KEY
+#
+#ARG TWITTER_CONSUMER_SECRET
+#ENV TWITTER_CONSUMER_SECRET $TWITTER_CONSUMER_SECRET
+#
+#ARG TWITTER_ACCESS_TOKEN_KEY
+#ENV TWITTER_ACCESS_TOKEN_KEY $TWITTER_ACCESS_TOKEN_KEY
+#
+#ARG TWITTER_ACCESS_TOKEN_SECRET
+#ENV TWITTER_ACCESS_TOKEN_SECRET $TWITTER_ACCESS_TOKEN_SECRET
 
 # Add source code to the `WORKDIR`
 COPY src/sentiment_flanders/batch batch
@@ -126,4 +110,4 @@ COPY src/sentiment_flanders/batch batch
 ARG PORT=8000
 EXPOSE $PORT
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["serve"]
+CMD ["update"]

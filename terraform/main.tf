@@ -43,7 +43,7 @@ locals {
     production     = ""
     default        = ""
   }
-  domain               = "sentiment-flanders.sh"
+  domain               = "sentiment-flanders-abc123.sh"
   api_domain           = "api.${local.domain}"
   workspace_domain     = "${local.workspace_url_prefixes[terraform.workspace]}${local.domain}"
   workspace_api_domain = "${local.workspace_url_prefixes[terraform.workspace]}${local.api_domain}"
