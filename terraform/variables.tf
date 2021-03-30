@@ -50,4 +50,7 @@ variable "region" {
 variable "deploy" {
   description = "A JSON string with deployment information to be included in the runtime config."
   type        = string
+  default = {
+    "deploy_id" : "latest"
+  }
 }
