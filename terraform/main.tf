@@ -17,10 +17,10 @@ provider "aws" {
   region = var.region
 }
 
-# Alternate workspace account region necessary for https certificates only.
+# Alternate workspace account region necessary for https certificates only, should be us-east-1.
 provider "aws" {
-  alias  = "us_west_1"
-  region = "us-west-1"
+  alias  = "us_east_1"
+  region = "us-east-1"
 }
 
 # Resources

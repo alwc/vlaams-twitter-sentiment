@@ -10,7 +10,6 @@ module "runtime_config" {
   source          = "./modules/runtime_config"
   package_name    = var.package-slug
   package_version = local.version_slug
-  deploy          = jsondecode(var.deploy)
   config = {
     a = "b"
     c = {
