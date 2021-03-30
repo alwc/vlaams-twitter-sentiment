@@ -1,0 +1,140 @@
+service: "sentiment-flanders"
+
+# Provider
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: $${opt:stage, "${workspace}"}
+  region: $${opt:region, "${region}"}
+  role: lambdaRole
+  environment:
+    WORKSPACE: $${self:provider.stage}
+  memorySize: 512
+  timeout: 10
+  provisionedConcurrency: 0
+  deploymentPrefix: "sentiment-flanders"
+  deploymentBucket:
+    blockPublicAccess: true
+    serverSideEncryption: AES256
+  tracing: # https://serverless.com/framework/docs/providers/aws/guide/functions#aws-x-ray-tracing
+    apiGateway: false
+    lambda: false
+
+# Dependencies
+
+plugins:
+  - serverless-domain-manager
+  - serverless-python-requirements
+
+custom:
+  customDomain:
+    domainName: ${domain}
+    certificateArn: ${https_certificate}
+    hostedZoneId: ${hosted_zone}
+    createRoute53Record: true
+    securityPolicy: tls_1_2
+  pythonRequirements:
+    # https://github.com/UnitedIncome/serverless-python-requirements#caching
+    useDownloadCache: false
+    useStaticCache: false
+    # https://github.com/UnitedIncome/serverless-python-requirements#dealing-with-lambdas-size-limitations
+    zip: false
+    slim: true
+    strip: false
+    # Copy existing environment.
+    vendor: /opt/conda/envs/sentiment-flanders-run-env/lib/python3.8/site-packages/
+
+# Package
+
+package:
+  exclude:
+    - node_modules/**
+
+# Functions
+
+functions:
+  api:
+    handler: "sentiment_flanders.api.api_handler"
+    events:
+      - http:
+          method: any
+          path: /
+          cors: true
+      - http:
+          method: any
+          path: /{proxy+}
+          cors: true
+  cron:
+    handler: "sentiment_flanders.api.cron_handler"
+    events:
+      - schedule: cron(0 12 * * ? *)
+
+# Resources
+
+resources:
+  Resources:
+    lambdaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: "sentiment-flanders-serverless-lambda-role"
+        # Allow Lamdbas to assume this role.
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - apigateway.amazonaws.com
+                  - events.amazonaws.com
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        # Allow Lambdas to access VPCs.
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+        # Allow Lambdas to access AWS services.
+        Policies:
+          - PolicyName: "sentiment-flanders-serverless-lambda-policy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - cloudwatch:*
+                    - dynamodb:*
+                    - ecs:*
+                    - events:*
+                    - lambda:*
+                    - logs:*
+                    - s3:*
+                    - sns:*
+                    - sqs:*
+                    - cognito-idp:*
+                  Resource:
+                    - "*"
+                - Effect: "Allow"
+                  Action:
+                    - ec2:DescribeSecurityGroups
+                    - ec2:DescribeSubnets
+                    - ec2:DescribeVpcs
+                    - iam:GetPolicy
+                    - iam:GetPolicyVersion
+                    - iam:GetRole
+                    - iam:GetRolePolicy
+                    - iam:ListAttachedRolePolicies
+                    - iam:ListRolePolicies
+                    - iam:ListRoles
+                    - iam:PassRole
+                    - kms:Encrypt
+                    - kms:Decrypt
+                    - kms:Describe*
+                    - kms:GenerateRandom
+                    - kms:Get*
+                    - kms:List*
+                    - ses:SendRawEmail
+                    - ssm:GetParameter
+                    - tag:GetResources
+                    - xray:PutTelemetryRecords
+                    - xray:PutTraceSegments
+                  Resource:
+                    - "*"

@@ -1,0 +1,81 @@
+# https://pre-commit.com
+default_stages: [commit, manual]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.5.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-xml
+      - id: check-yaml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+        types: [python]
+      - id: end-of-file-fixer
+        types: [python]
+  - repo: local
+    hooks:
+#      - id: black
+#        name: black
+#        entry: black --line-length 100
+#        require_serial: true
+#        language: system
+#        types: [python]
+#        exclude: "^tasks/"
+      # - id: safety
+      #   name: safety
+      #   entry: safety check --full-report
+      #   pass_filenames: false
+      #   always_run: true
+      #   language: system
+      #   types: []
+      # - id: shellcheck
+      #   name: shellcheck
+      #   entry: shellcheck --check-sourced --shell=bash
+      #   language: system
+      #   types: [shell]
+#      - id: flake8
+#        name: flake8
+#        entry: flake8
+#        language: system
+#        types: [python]
+#        exclude: "^tasks/"
+#      - id: mypy
+#        name: mypy
+#        entry: mypy
+#        language: system
+#        types: [python]
+      - id: pydocstyle
+        name: pydocstyle
+        entry: pydocstyle
+        language: system
+        types: [python]
+      - id: proselint
+        name: proselint
+        entry: proselint
+        language: system
+        types: [markdown, rst]
+      - id: terraform
+        name: terraform
+        entry: terraform fmt -write=true -recursive terraform
+        pass_filenames: false
+        language: system
+        types: [terraform]
+      - id: isort
+        name: isort
+        entry: isort
+        require_serial: true
+        language: system
+        types: [python]

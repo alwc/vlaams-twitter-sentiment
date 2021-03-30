@@ -1,0 +1,21 @@
+# Do: pin all runtime dependencies in this spec with PEP 440 version specifiers
+name: sentiment-flanders-run-env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python~=3.8.0
+  - pip~=20.0.0
+  - pip:
+      - boto3~=1.16.0
+      - coloredlogs~=14.0
+      - dynaconf~=2.2.0
+      - fastapi~=0.61.0
+      - mangum~=0.7.0
+      - sentry-sdk~=0.14.0
+      - wrapt~=1.12.0
+      - scikit-learn~=0.23.2
+      - pandas~=1.1.4
+      - uvicorn~=0.12.3
+      - gunicorn~=20.0.4
+      - uvloop~=0.14.0

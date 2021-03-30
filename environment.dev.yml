@@ -1,0 +1,43 @@
+# Do not: include runtime dependencies in this spec
+name: sentiment-flanders-env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - awscli
+  - black
+  - bump2version
+  - conda-merge
+  - isort
+  - jupyterlab
+  - matplotlib
+  - nomkl
+  - moto
+  - mypy
+  - pip
+  - pre-commit
+  - proselint
+  - pydocstyle
+  - pytest
+  - pytest-cov
+  - pytest-xdist
+  - safety
+  - shellcheck
+  - snakeviz
+  - terraform
+  - pip:
+      - behave
+      - cruft
+      - flake8
+      - flake8-comprehensions
+      - flake8-bandit
+      - flake8-bugbear
+      - flake8-isort
+      - flake8-mutable
+      - flake8-rst-docstrings
+      - invoke
+      - portray
+      - emoji~=0.6.0
+      - torch~=1.7.0
+      - git+https://github.com/tweepy/tweepy@master
+      - git+http://radix:eFr5jZgRGy8zYahFKbGv@gitlab.com/radix-ai/statistiek-vlaanderen/twitter-sentiment-classifier.git

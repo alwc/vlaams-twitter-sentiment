@@ -1,0 +1,39 @@
+{
+    "template": "git+ssh://git@gitlab.com/radix-ai/packages/cookiecutter.git",
+    "commit": "d6f3753d6fa73602da2e63794bf8359dc4aaa47d",
+    "context": {
+        "cookiecutter": {
+            "project_name": "Sentiment Flanders",
+            "project_description": "A Python package that predicts the sentiment of Flemish Tweets.",
+            "product_name": "Sentiment Flanders",
+            "product_slug": "sentiment_flanders",
+            "product_slug_kebab": "sentiment-flanders",
+            "package_slug": "sentiment_flanders",
+            "package_slug_kebab": "sentiment-flanders",
+            "package_version": "0.0.0",
+            "conda_env_dev": "sentiment-flanders-env",
+            "conda_env_run": "sentiment-flanders-run-env",
+            "gitlab_project_path": "radix-ai/packages/sentiment-flanders",
+            "sentry_dsn": "https://a82596eaa56c4ddeb8a4f89079a38730@o348638.ingest.sentry.io/5469393",
+            "sentry_project": "sentiment-flanders",
+            "sentry_org": "radix-ai",
+            "cloud": {
+                "serverless": "1",
+                "terraform": "1",
+                "assume_role": "1",
+                "single_deployment_per_workspace": "1",
+                "region": "eu-west-1",
+                "organisation_account": "962194010810",
+                "workspace_accounts": {
+                    "infrastructure": "962194010810",
+                    "feature": "962194010810",
+                    "development": "962194010810",
+                    "acceptance": "962194010810",
+                    "production": "962194010810"
+                },
+                "role": "OrganizationAccountAccessRole"
+            },
+            "_template": "git+ssh://git@gitlab.com/radix-ai/packages/cookiecutter.git"
+        }
+    }
+}
