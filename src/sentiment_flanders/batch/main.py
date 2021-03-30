@@ -1,7 +1,10 @@
 """Cron-job as used by AWS Batch."""
+import json
+import os
 import pickle
 from datetime import datetime, timedelta
 from math import log10
+from pathlib import Path
 from time import sleep
 
 import boto3
@@ -23,6 +26,7 @@ def fetch_and_process(
         adder_replies: float = ADDER_REPLIES,
         adder_retweets: float = ADDER_RETWEETS,
         followers_log: float = FOLLOWERS_LOG,
+        load_local_credentials: bool = True,
 ):
     """
     Perform a fetch on the tweets created two days ago, process these accordingly and push results to DynamoDB.
@@ -38,7 +42,15 @@ def fetch_and_process(
                            points += adder_retweets * n_retweets
     :param followers_log: Additional points for every follower the user has, logarithmic
                           points += user_followers_log * log_10(user_followers)
+    :param load_local_credentials: Load in the locally stored credentials
     """
+    # Set the locally stored Twitter credentials
+    if load_local_credentials:
+        with open(Path(__file__).parent / 'credentials.json', 'r') as f:
+            credentials = json.load(f)
+            for k, v in credentials.items():
+                os.environ[k] = v
+
     # Get all (16) timestamps for which a fetch is performed
     timestamps = get_ending_timestamps()
 

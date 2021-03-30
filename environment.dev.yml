@@ -39,4 +39,4 @@ dependencies:
       - portray
       - emoji~=0.6.0
       - git+https://github.com/tweepy/tweepy@master
-      - pip install git+https://github.com/vsa-datascience/vlaams-twitter-sentiment-model.git
+      - git+https://github.com/vsa-datascience/vlaams-twitter-sentiment-model.git

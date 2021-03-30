@@ -84,7 +84,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = "PriceClass_100" # CDN in EU & US (cheapest)
-  aliases             = [var.domain]
+  aliases             = ["${var.domain}"]
 
   restrictions {
     geo_restriction {
