@@ -41,6 +41,7 @@ locals {
     development    = "dev."
     acceptance     = "uat."
     production     = ""
+    default        = ""
   }
   domain               = "sentiment-flanders.sh"
   api_domain           = "api.${local.domain}"
