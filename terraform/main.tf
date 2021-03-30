@@ -1,12 +1,14 @@
 terraform {
   required_version = ">= 0.12.20"
   backend "s3" {
-    bucket  = "vo-vsa-twitter-state-bucket"
-    key     = "terraform.tfstate"
-    encrypt = true
-    region  = "eu-west-1"
+    workspace_key_prefix = "workspace"
+    bucket               = "vo-vsa-twitter-state-bucket"
+    key                  = "terraform.tfstate"
+    encrypt              = true
+    region               = "eu-west-1"
   }
 }
+
 
 # Providers
 
@@ -89,12 +91,12 @@ module "cloudfront_cdn" {
   https_certificate = module.https_certificate.https_certificate
   hosted_zone       = aws_route53_zone.workspace_domain.zone_id
   origins = {
-    "${module.s3_website_bucket.website_endpoint}" : {
+    module.s3_website_bucket.website_endpoint : {
       path_pattern : null,
       origin_type : "S3_WEBSITE",
       function_associations : []
     },
-    "${local.workspace_api_domain}" : {
+    local.workspace_api_domain : {
       path_pattern : "/api*",
       origin_type : "API_GATEWAY",
       function_associations : []
