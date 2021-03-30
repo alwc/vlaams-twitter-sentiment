@@ -1,4 +1,4 @@
-vo-vsa-twitter sentiment 
+# vo-vsa-twitter sentiment 
 
 setup:
 
@@ -10,5 +10,3 @@ Cloudar:    Tom Mertens <tom.mertens@cloudar.be>
 Cloudar heeft een codepipeline voorzien die de terraform code van Radix deployed.
 
 to be completed.
-
-
