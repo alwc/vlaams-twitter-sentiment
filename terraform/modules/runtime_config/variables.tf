@@ -9,10 +9,6 @@ variable "package_version" {
   default     = "latest"
 }
 
-variable "deploy" {
-  description = "A JSON object that contains the deployment information for this package."
-}
-
 variable "config" {
   description = "A JSON object that contains the runtime config for this package."
 }
