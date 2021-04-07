@@ -32,7 +32,7 @@
                     "production": "840374773521",
                     "default": "840374773521"
                 },
-                "role": "OrganizationAccountAccessRole"
+                "role": "CFN-VO-VSA-TWITTER-PIPELINE-TerraCFNIamBuildRole-1IPNZSY2YKHU8"
             },
             "_template": "git+ssh://git@gitlab.com/radix-ai/packages/cookiecutter.git"
         }

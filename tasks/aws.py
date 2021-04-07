@@ -82,7 +82,7 @@ def role_credentials(
 @task
 def role(
     c,
-    role="OrganizationAccountAccessRole",
+    role="CFN-VO-VSA-TWITTER-PIPELINE-TerraCFNIamBuildRole-1IPNZSY2YKHU8",
     session_name="user-session",
     duration=36000,
     write_dotenv=True,
