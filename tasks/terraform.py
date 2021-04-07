@@ -99,7 +99,7 @@ def deploy(c, force=False):
     from botocore.exceptions import ClientError
 
     # Determine the deployed Terraform state, if there is one.
-    ssm = boto3.client("ssm", region_name=aws.ENV["AWS_DEFAULT_REGION"])
+    ssm = boto3.client("ssm", region_name="eu-west-1")
     try:
         deployed_terraform_state = json.loads(ssm.get_parameter(
             Name=f"/{aws.ENV['WORKSPACE']}/sentiment-flanders/{terraform_state_name(c)}",
