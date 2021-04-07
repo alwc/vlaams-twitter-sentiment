@@ -9,6 +9,7 @@ phases:
       - ls -al
       - pip install invoke
       - npm install -g serverless
+      - pip install coloredlogs
   pre_build:
     commands:
       - pwd
