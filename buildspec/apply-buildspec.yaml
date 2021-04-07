@@ -7,9 +7,9 @@ phases:
       - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
       - yum -y install terraform
       - ls -al
-      - pip install invoke
-      - npm install -g serverless
-      - pip install coloredlogs
+      #- pip install invoke
+      #- npm install -g serverless
+      #- pip install coloredlogs
   pre_build:
     commands:
       - pwd
@@ -18,8 +18,8 @@ phases:
   build:
     commands:
       - terraform -chdir=terraform apply -auto-approve
-      - git init
-      - invoke serverless.deploy
+      #- git init
+      #- invoke serverless.deploy
   post_build:
     commands:
        - echo "TF applied"
