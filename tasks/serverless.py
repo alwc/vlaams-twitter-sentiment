@@ -25,12 +25,12 @@ def install_plugins(c):
                     c.run(f"serverless plugin install -n {match.group('plugin')}")
 
 
-# @task(
-#     pre=[
-#         call(install_plugins),
-#         call(aws.role, session_name="serverless-deploy-session", duration=900, write_dotenv=False),
-#     ]
-# )
+@task(
+    pre=[
+        call(install_plugins),
+        #call(aws.role, session_name="serverless-deploy-session", duration=900, write_dotenv=False),
+    ]
+)
 def deploy(c):
     """Deploy the package with Serverless to the active workspace account."""
     with c.cd(PACKAGE_PATH):
