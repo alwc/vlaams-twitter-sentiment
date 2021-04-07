@@ -44,7 +44,7 @@ def deploy(c):
 @task(
     pre=[
         call(install_plugins),
-        call(aws.role, session_name="serverless-destroy-session", duration=900, write_dotenv=False),
+        # call(aws.role, session_name="serverless-destroy-session", duration=900, write_dotenv=False),
     ]
 )
 def destroy(c, dry_run=True):
