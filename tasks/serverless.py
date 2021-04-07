@@ -11,7 +11,7 @@ from . import aws, terraform
 logger = logging.getLogger(__name__)
 REPO_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PACKAGE_PATH = os.path.join(REPO_PATH, "src")
-
+print (PACKAGE_PATH)
 
 @task(pre=[call(terraform.deploy, force=True)])
 def install_plugins(c):
@@ -54,5 +54,5 @@ def destroy(c, dry_run=True):
             logger.info(f"Serverless remove dry-run for {aws.ENV['WORKSPACE']}")
         else:
             logger.warning("Destroying Serverless deployment...")
-            # c.run("serverless delete_domain", env=aws.ENV)
-            # c.run("serverless remove", env=aws.ENV)
+            c.run("serverless delete_domain", env=aws.ENV)
+            c.run("serverless remove", env=aws.ENV)

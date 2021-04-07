@@ -71,26 +71,26 @@ def init(c):
 def terraform_init_and_select_workspace(c: Context) -> None:
     """Initialise Terraform and select the workspace corresponding to the active git branch."""
     # Delete the local Terraform state to avoid issues.
-    c.run("rm -rf .terraform/modules/ .terraform/environment .terraform/*.tfstate", hide="out")
-
-    # Select the Terraform workspace.
-    c.run(
-        f"terraform init "
-        f"-backend-config=\"region={aws.ENV['AWS_DEFAULT_REGION']}\" "
-        f'-backend-config="bucket={terraform_backend_name()}" '
-        f'-backend-config="key={terraform_state_name(c)}.tfstate"',
-        env=aws.ENV,
-    )
-    c.run(
-        f"terraform workspace new {aws.ENV['WORKSPACE']} || terraform workspace select {aws.ENV['WORKSPACE']}",
-        env=aws.ENV,
-    )
+    #c.run("rm -rf .terraform/modules/ .terraform/environment .terraform/*.tfstate", hide="out")
+#
+    ## Select the Terraform workspace.
+    #c.run(
+    #    f"terraform init "
+    #    f"-backend-config=\"region={aws.ENV['AWS_DEFAULT_REGION']}\" "
+    #    f'-backend-config="bucket={terraform_backend_name()}" '
+    #    f'-backend-config="key={terraform_state_name(c)}.tfstate"',
+    #    env=aws.ENV,
+    #)
+    #c.run(
+    #    f"terraform workspace new {aws.ENV['WORKSPACE']} || terraform workspace select {aws.ENV['WORKSPACE']}",
+    #    env=aws.ENV,
+    #)
 
 
 @task(
     pre=[
-        call(init),
-        call(aws.role, session_name="terraform-deploy-session", duration=900, write_dotenv=False),
+        # call(init),
+        # call(aws.role, session_name="terraform-deploy-session", duration=900, write_dotenv=False),
     ]
 )
 def deploy(c, force=False):
@@ -158,43 +158,43 @@ def deploy(c, force=False):
             )
 
 
-@task(
-    pre=[
-        call(aws.role, session_name="terraform-destroy-session", duration=900, write_dotenv=False)
-    ]
-)
-def destroy(c, dry_run=True):
-    """Destroy the Terraform state on the active workspace account."""
-    nodeploy = "{}"
-    if dry_run:
-        logger.info("Generating Terraform destroy plan...")
-        with c.cd(TERRAFORM_PATH):
-            # Select the Terraform workspace.
-            terraform_init_and_select_workspace(c)
-            # Dry run the destroy.
-            c.run(
-                f"terraform plan -destroy "
-                f"-var-file='{TFVARS_FILEPATH}' "
-                f"-var='deploy={nodeploy}'",
-                env=aws.ENV,
-            )
-    else:
-        logger.warning("Destroying Terraform deployment...")
-        with c.cd(TERRAFORM_PATH):
-            # Select the Terraform workspace.
-            terraform_init_and_select_workspace(c)
-            # Destroy the state.
-            c.run(
-                f"terraform destroy -input=false -auto-approve "
-                f"-var-file='{TFVARS_FILEPATH}' "
-                f"-var='deploy={nodeploy}'",
-                env=aws.ENV,
-            )
-
-
-@task(pre=[call(aws.role, session_name="terraform-show-session", duration=900, write_dotenv=False)])
-def show(c):
-    """Show the resources managed by Terraform on the active workspace account."""
-    with c.cd(TERRAFORM_PATH):
-        terraform_init_and_select_workspace(c)
-        c.run("terraform show", env=aws.ENV)
+#@task(
+#    pre=[
+#        call(aws.role, session_name="terraform-destroy-session", duration=900, write_dotenv=False)
+#    ]
+#)
+#def destroy(c, dry_run=True):
+#    """Destroy the Terraform state on the active workspace account."""
+#    nodeploy = "{}"
+#    if dry_run:
+#        logger.info("Generating Terraform destroy plan...")
+#        with c.cd(TERRAFORM_PATH):
+#            # Select the Terraform workspace.
+#            terraform_init_and_select_workspace(c)
+#            # Dry run the destroy.
+#            c.run(
+#                f"terraform plan -destroy "
+#                f"-var-file='{TFVARS_FILEPATH}' "
+#                f"-var='deploy={nodeploy}'",
+#                env=aws.ENV,
+#            )
+#    else:
+#        logger.warning("Destroying Terraform deployment...")
+#        with c.cd(TERRAFORM_PATH):
+#            # Select the Terraform workspace.
+#            terraform_init_and_select_workspace(c)
+#            # Destroy the state.
+#            c.run(
+#                f"terraform destroy -input=false -auto-approve "
+#                f"-var-file='{TFVARS_FILEPATH}' "
+#                f"-var='deploy={nodeploy}'",
+#                env=aws.ENV,
+#            )
+#
+#
+#@task(pre=[call(aws.role, session_name="terraform-show-session", duration=900, write_dotenv=False)])
+#def show(c):
+#    """Show the resources managed by Terraform on the active workspace account."""
+#    with c.cd(TERRAFORM_PATH):
+#        terraform_init_and_select_workspace(c)
+#        c.run("terraform show", env=aws.ENV)
