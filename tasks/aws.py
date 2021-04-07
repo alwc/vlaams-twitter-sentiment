@@ -18,13 +18,13 @@ REPO_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 def current_aws_account(c: Context) -> str:
     """Get AWS account corresponding to the active git branch."""
-    aws_account = {'infrastructure': '962194010810', 'feature': '962194010810', 'development': '962194010810', 'acceptance': '962194010810', 'production': '962194010810'}.get(current_workspace(c), "feature")
+    aws_account = {'infrastructure': '840374773521', 'feature': '840374773521', 'development': '840374773521', 'acceptance': '840374773521', 'production': '840374773521'}.get(current_workspace(c), "feature")
     return aws_account
 
 
 def role_credentials(
     c: Context,
-    role: str = "OrganizationAccountAccessRole",
+    role: str = "CFN-VO-VSA-TWITTER-PIPELINE-TerraCFNIamBuildRole-1IPNZSY2YKHU8",
     session_name: str = "user-session",
     duration: int = 36000,
 ) -> Dict[str, Any]:

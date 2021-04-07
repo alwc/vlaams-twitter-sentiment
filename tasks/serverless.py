@@ -28,7 +28,7 @@ def install_plugins(c):
 @task(
     pre=[
         call(install_plugins),
-        # call(aws.role, session_name="serverless-deploy-session", duration=900, write_dotenv=False),
+        call(aws.role, session_name="serverless-deploy-session", duration=900, write_dotenv=False),
     ]
 )
 def deploy(c):
@@ -36,17 +36,15 @@ def deploy(c):
     with c.cd(PACKAGE_PATH):
         logger.info("Updating Serverless deployment...")
         c.run("touch requirements.txt")
-        c.run("serverless create_domain")
-        c.run("serverless deploy")
-        # c.run("serverless create_domain", env=aws.ENV)
-        # c.run("serverless deploy", env=aws.ENV)
+        c.run("serverless create_domain", env=aws.ENV)
+        c.run("serverless deploy", env=aws.ENV)
         c.run("rm requirements.txt")
 
 
 @task(
     pre=[
         call(install_plugins),
-        # call(aws.role, session_name="serverless-destroy-session", duration=900, write_dotenv=False),
+        call(aws.role, session_name="serverless-destroy-session", duration=900, write_dotenv=False),
     ]
 )
 def destroy(c, dry_run=True):
