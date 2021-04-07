@@ -134,14 +134,14 @@ def deploy(c, force=False):
             terraform_init_and_select_workspace(c)
 
             # Generate deployment info to include in the runtime config.
-            deploy = {
-                "deploy_id": terraform_state_name(c),
-                "git_ref": c.run("git rev-parse HEAD", hide="out").stdout[:8],
-                "git_commit_datetime": c.run("git log -1 --format=%ai", hide="out").stdout.strip(),
-                "git_commit_author": c.run("git log -1 --format=%ae", hide="out").stdout.strip(),
-                "gitlab_pipeline_url": os.environ.get("CI_PIPELINE_URL", ""),
-                "terraform_state_hash": desired_terraform_state,
-            }
+            # deploy = {
+            #     "deploy_id": terraform_state_name(c),
+            #     "git_ref": c.run("git rev-parse HEAD", hide="out").stdout[:8],
+            #     "git_commit_datetime": c.run("git log -1 --format=%ai", hide="out").stdout.strip(),
+            #     "git_commit_author": c.run("git log -1 --format=%ae", hide="out").stdout.strip(),
+            #     "gitlab_pipeline_url": os.environ.get("CI_PIPELINE_URL", ""),
+            #     "terraform_state_hash": desired_terraform_state,
+            # }
 
             # TODO: Uncomment to remove previous compute environment
             # c.run(
@@ -153,7 +153,7 @@ def deploy(c, force=False):
             c.run(
                 f"terraform apply -input=false -auto-approve "
                 f"-var-file='{TFVARS_FILEPATH}' "
-                f"-var='deploy={json.dumps(deploy, indent=None)}'",
+                # f"-var='deploy={json.dumps(deploy, indent=None)}'",
                 env=aws.ENV,
             )
 
