@@ -18,7 +18,7 @@ TFVARS_FILEPATH = os.path.join(
 
 def terraform_backend_name() -> str:
     """Get the name of the Terraform backend for the active workspace."""
-    return f"{aws.ENV['WORKSPACE']}-sentiment-flanders-terraform-state"
+    return f"{aws.ENV['WORKSPACE']}-sentiment-flanders-terraform"
 
 
 def terraform_state_name(c: Context) -> str:
