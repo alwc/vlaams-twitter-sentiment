@@ -7,6 +7,8 @@ phases:
       - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
       - yum -y install terraform
       - ls -al
+      - pip install invoke
+      - npm install -g serverless
   pre_build:
     commands:
       - pwd
@@ -15,6 +17,7 @@ phases:
   build:
     commands:
       - terraform -chdir=terraform apply -auto-approve
+      - invoke serverless.deploy
   post_build:
     commands:
        - echo "TF applied"
