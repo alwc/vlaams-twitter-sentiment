@@ -154,7 +154,7 @@ def deploy(c, force=False):
                 f"terraform apply -input=false -auto-approve "
                 f"-var-file='{TFVARS_FILEPATH}' "
                 # f"-var='deploy={json.dumps(deploy, indent=None)}'",
-                env=aws.ENV,
+                # env=aws.ENV,
             )
 
 
