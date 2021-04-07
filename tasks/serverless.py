@@ -28,7 +28,7 @@ def install_plugins(c):
 @task(
     pre=[
         call(install_plugins),
-        #call(aws.role, session_name="serverless-deploy-session", duration=900, write_dotenv=False),
+        # call(aws.role, session_name="serverless-deploy-session", duration=900, write_dotenv=False),
     ]
 )
 def deploy(c):
@@ -56,5 +56,5 @@ def destroy(c, dry_run=True):
             logger.info(f"Serverless remove dry-run for {aws.ENV['WORKSPACE']}")
         else:
             logger.warning("Destroying Serverless deployment...")
-            c.run("serverless delete_domain", env=aws.ENV)
-            c.run("serverless remove", env=aws.ENV)
+            # c.run("serverless delete_domain", env=aws.ENV)
+            # c.run("serverless remove", env=aws.ENV)
