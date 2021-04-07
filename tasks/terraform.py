@@ -23,7 +23,7 @@ def terraform_backend_name() -> str:
 
 def terraform_state_name(c: Context) -> str:
     """Get the name of the Terraform state file."""
-    tfstate_name = "terraform.tfstate"
+    tfstate_name = "terraform"
     return tfstate_name
 
 
@@ -70,13 +70,13 @@ def init(c):
 
 def terraform_init_and_select_workspace(c: Context) -> None:
     """Initialise Terraform and select the workspace corresponding to the active git branch."""
-     Delete the local Terraform state to avoid issues.
+    # Delete the local Terraform state to avoid issues.
     c.run("rm -rf .terraform/modules/ .terraform/environment .terraform/*.tfstate", hide="out")
 
     # Select the Terraform workspace.
     c.run(
         f"terraform init "
-        f"-backend-config=\"region={aws.ENV['AWS_DEFAULT_REGION']}\" "
+        f"-backend-config=\"region=eu-west-1\" "
         f'-backend-config="bucket={terraform_backend_name()}" '
         f'-backend-config="key={terraform_state_name(c)}.tfstate"',
         env=aws.ENV,
