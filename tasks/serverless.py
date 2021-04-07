@@ -36,8 +36,10 @@ def deploy(c):
     with c.cd(PACKAGE_PATH):
         logger.info("Updating Serverless deployment...")
         c.run("touch requirements.txt")
-        c.run("serverless create_domain", env=aws.ENV)
-        c.run("serverless deploy", env=aws.ENV)
+        c.run("serverless create_domain")
+        c.run("serverless deploy")
+        # c.run("serverless create_domain", env=aws.ENV)
+        # c.run("serverless deploy", env=aws.ENV)
         c.run("rm requirements.txt")
 
 
