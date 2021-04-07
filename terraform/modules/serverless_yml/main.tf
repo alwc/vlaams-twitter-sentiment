@@ -17,7 +17,7 @@ module "serverless_yml" {
 */
 
 resource "local_file" "serverless_yml" {
-  content = templatefile("${path.module}/serverless.tpl.yml", {
+  content = templatefile("./modules/serverless_yml/serverless.tpl.yml", {
     workspace         = terraform.workspace
     region            = var.region
     domain            = var.domain
