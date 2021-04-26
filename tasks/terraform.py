@@ -122,7 +122,7 @@ def deploy(c, force=False):
             hide="out",
         ).stdout.strip()
  
-     Deploy with Terraform if the desired state is different from the deployed state.
+    # Deploy with Terraform if the desired state is different from the deployed state.
     if not force and desired_terraform_state == deployed_terraform_state:
         logger.info("Infrastructure is up to date!")
     else:
