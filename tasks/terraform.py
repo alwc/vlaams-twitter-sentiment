@@ -14,9 +14,9 @@ TERRAFORM_PATH = os.path.join(REPO_PATH, "terraform")
 TFVARS_FILEPATH = os.path.join(
     REPO_PATH, "src", "sentiment_flanders", "config", "terraform.tfvars.json"
 )
-print "variable REPO_PATH = " REPO_PATH
-print "variable TERRAFORM_PATH = " TERRAFORM_PATH
-print "variable TFVARS_FILEPATH = " TFVARS_FILEPATH
+print ("variable REPO_PATH = ", REPO_PATH)
+print ("variable TERRAFORM_PATH = ", TERRAFORM_PATH)
+print ("variable TFVARS_FILEPATH = ", TFVARS_FILEPATH)
 
 
 def terraform_backend_name() -> str:
