@@ -43,7 +43,8 @@ locals {
     production     = ""
     default        = ""
   }
-  domain               = "sentiment-flanders.cloudar.be"
+  #domain               = "sentiment-flanders.cloudar.be"
+  domain               = "twittersentiment.statistiekvlaanderen.be"
   api_domain           = "api.${local.domain}"
   workspace_domain     = "${local.workspace_url_prefixes[terraform.workspace]}${local.domain}"
   workspace_api_domain = "${local.workspace_url_prefixes[terraform.workspace]}${local.api_domain}"
