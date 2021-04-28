@@ -85,11 +85,10 @@ def terraform_init_and_select_workspace(c: Context) -> None:
         f'-backend-config="key=terraform.tfstate"',
         env=aws.ENV,
     )
-    # CLOUDAR REMOVE
-    #c.run(
-    #    f"terraform workspace new {aws.ENV['WORKSPACE']} || terraform workspace select {aws.ENV['WORKSPACE']}",
-    #    env=aws.ENV,
-    #)
+    c.run(
+        f"terraform workspace new {aws.ENV['WORKSPACE']} || terraform workspace select {aws.ENV['WORKSPACE']}",
+        env=aws.ENV,
+    )
 
 
 @task(
