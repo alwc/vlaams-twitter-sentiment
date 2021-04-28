@@ -99,7 +99,7 @@ def terraform_init_and_select_workspace(c: Context) -> None:
     ]
 )
 def deploy(c, force=False):
-    """Deploy the desired Terraform state to the active workspace account."""
+    #"""Deploy the desired Terraform state to the active workspace account."""
     #import boto3
     #from botocore.exceptions import ClientError
  #
@@ -155,15 +155,15 @@ def deploy(c, force=False):
     #        # )
 #
     #        # Apply the changes.
-    #       
-    #        c.run(
-    #            f"terraform apply -input=false -auto-approve "
-    #            f"-var-file='{TFVARS_FILEPATH}' "
-    #            # f"-var='deploy={json.dumps(deploy, indent=None)}'",
-    #            # env=aws.ENV,
-    #        )
+            
+            c.run(
+                f"terraform apply -input=false -auto-approve "
+                f"-var-file='{TFVARS_FILEPATH}' "
+                # f"-var='deploy={json.dumps(deploy, indent=None)}'",
+                # env=aws.ENV,
+            )
     c.run(
-        f"terraform apply -input=false -auto-approve "
+        f"terraform -chdir=terraform apply -input=false -auto-approve "
         f"-var-file='{TFVARS_FILEPATH}' "
         # f"-var='deploy={json.dumps(deploy, indent=None)}'",
         # env=aws.ENV,
