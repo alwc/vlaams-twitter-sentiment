@@ -17,7 +17,7 @@ phases:
       - terraform -chdir=terraform validate
   build:
     commands:
-      #- terraform -chdir=terraform apply -auto-approve
+      - terraform -chdir=terraform apply -auto-approve
       #- git init
       - invoke serverless.deploy
   post_build:
