@@ -29,9 +29,12 @@ plugins:
 
 custom:
   customDomain:
-    domainName: api.sentiment-flanders.cloudar.be
-    certificateArn: arn:aws:acm:us-east-1:840374773521:certificate/05a0338a-52c6-480d-8352-b62c8d950ca6
-    hostedZoneId: Z022330512YQ8VIKH27PB
+    domainName: api.twittersentiment.statistiekvlaanderen.be
+    certificateArn: arn:aws:acm:us-east-1:840374773521:certificate/4d2eebac-5587-46fe-b696-4f5ddf3ed7ed
+    hostedZoneId: Z016223627OUR5VSC8G37
+    # domainName: api.sentiment-flanders.cloudar.be
+    # certificateArn: arn:aws:acm:us-east-1:840374773521:certificate/05a0338a-52c6-480d-8352-b62c8d950ca6
+    # hostedZoneId: Z022330512YQ8VIKH27PB
     createRoute53Record: true
     securityPolicy: tls_1_2
   pythonRequirements:
