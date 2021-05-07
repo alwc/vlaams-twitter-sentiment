@@ -10,8 +10,10 @@ phases:
       - pip install invoke
       - npm install -g serverless
       - pip install coloredlogs
+      - cd src
       - serverless plugin install -n serverless-domain-manager
       - serverless plugin install -n serverless-python-requirements
+      - cd ..
   pre_build:
     commands:
       - pwd
