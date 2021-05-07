@@ -88,7 +88,7 @@ def fetch_and_process(
     # Backup the tweets to S3
     s3_resource = boto3.resource('s3')
     s3_resource.Object(
-            'default-sentiment-flanders-data',
+            'default-twittersentiment-data',
             f'backup/{(datetime.today() - timedelta(days=2)).strftime("%Y-%m-%d")}.pickle',
     ).put(Body=pickle.dumps(processed))
     print(f"Backed up all {len(processed)} tweets")
