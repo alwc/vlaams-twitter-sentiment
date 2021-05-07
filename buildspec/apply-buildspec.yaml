@@ -10,6 +10,8 @@ phases:
       - pip install invoke
       - npm install -g serverless
       - pip install coloredlogs
+      - serverless plugin install -n serverless-domain-manager
+      - serverless plugin install -n serverless-python-requirements
   pre_build:
     commands:
       - pwd
@@ -17,9 +19,12 @@ phases:
       - terraform -chdir=terraform validate
   build:
     commands:
-      #- terraform -chdir=terraform apply -auto-approve
-      - git init
-      - invoke serverless.deploy
+      # install the terraform code
+      - terraform -chdir=terraform apply -auto-approve
+      # deploy the backend with the serverless framework
+      - cd src
+      - serverless create_domain
+      - serverless deploy
   post_build:
     commands:
        - echo "TF applied"
