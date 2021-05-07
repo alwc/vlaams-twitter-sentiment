@@ -30,8 +30,10 @@ plugins:
 custom:
   customDomain:
     domainName: ${domain}
-    certificateArn: ${https_certificate}
-    hostedZoneId: ${hosted_zone}
+    #certificateArn: ${https_certificate}
+    #hostedZoneId: ${hosted_zone}
+    certificateArn: arn:aws:acm:us-east-1:840374773521:certificate/4d2eebac-5587-46fe-b696-4f5ddf3ed7ed
+    hostedZoneId: Z016223627OUR5VSC8G37
     createRoute53Record: true
     securityPolicy: tls_1_2
   pythonRequirements:
