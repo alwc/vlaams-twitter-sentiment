@@ -34,7 +34,7 @@ def process_historical(
     # Fetch resources from S3
     s3_resource = boto3.resource('s3')
     my_bucket = s3_resource.Bucket(
-            'default-twittersentiment-data,
+            'default-twittersentiment-data',
     )
     for my_bucket_object in my_bucket.objects.filter(Prefix='backup/').all():
         print(f"Processing {my_bucket_object.key}")
