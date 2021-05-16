@@ -20,8 +20,8 @@ phases:
       - pip3 install sentry-sdk -t .
       - pip3 install coloredlogs -t .
       - pip3 install wrapt -t .
-      - pip3 install scikit-learn -t .
-      #- pip3 install pandas -t .
+      #- pip3 install scikit-learn -t .
+      - pip3 install pandas -t .
       - pip3 install uvicorn -t .
       - pip3 install gunicorn -t .
       - pip3 install uvloop -t .
