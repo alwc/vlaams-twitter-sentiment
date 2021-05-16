@@ -13,18 +13,18 @@ phases:
       - cd src
       - serverless plugin install -n serverless-domain-manager
       - serverless plugin install -n serverless-python-requirements
+      - pip3 install boto3 -t .
+      - pip3 install fastapi -t .
+      - pip3 install dynaconf -t .
+      - pip3 install mangum -t .
+      - pip3 install sentry-sdk -t .
+      - pip3 install wrapt -t .
+      - pip3 install scikit-learn -t .
+      - pip3 install pandas -t .
+      - pip3 install uvicorn -t .
+      - pip3 install gunicorn -t .
+      - pip3 install uvloop -t .
       - cd ..
-      - pip3 install boto3
-      - pip3 install fastapi
-      - pip3 install dynaconf
-      - pip3 install mangum
-      - pip3 install sentry-sdk
-      - pip3 install wrapt
-      - pip3 install scikit-learn
-      - pip3 install pandas
-      - pip3 install uvicorn
-      - pip3 install gunicorn
-      - pip3 install uvloop
   pre_build:
     commands:
       - pwd

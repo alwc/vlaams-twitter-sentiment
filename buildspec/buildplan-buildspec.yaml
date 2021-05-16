@@ -29,6 +29,7 @@ phases:
       - pip3 install uvicorn -t .
       - pip3 install gunicorn -t .
       - pip3 install uvloop -t .
+      - cd ..
   build:
     commands:
       - terraform -chdir=terraform plan
