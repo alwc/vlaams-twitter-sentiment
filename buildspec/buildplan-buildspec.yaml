@@ -12,6 +12,9 @@ phases:
       - pwd
       - terraform -chdir=terraform init
       - terraform -chdir=terraform validate
+      - pip install invoke
+      - npm install -g serverless
+      - pip install coloredlogs
       - cd src
       - serverless plugin install -n serverless-domain-manager
       - serverless plugin install -n serverless-python-requirements
