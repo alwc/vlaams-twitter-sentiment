@@ -66,6 +66,12 @@ locals {
 resource "aws_s3_bucket" "instance" {
   bucket = var.bucket_name
 
+  tags = {
+    environment = "prd"
+    support = "standard"
+  }
+
+
   dynamic "server_side_encryption_configuration" {
     for_each = local.encryption_algorithm
     content {

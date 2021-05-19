@@ -86,6 +86,13 @@ resource "aws_cloudfront_distribution" "cdn" {
   price_class         = "PriceClass_100" # CDN in EU & US (cheapest)
   aliases             = ["${var.domain}"]
 
+  tags = {
+    Name        = "twittersentiment.statistiekvlaanderen.be Cloudfront distribution"
+    environment = "prd"
+    support = "standard"
+  }
+
+
   restrictions {
     geo_restriction {
       restriction_type = "none"
