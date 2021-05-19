@@ -83,24 +83,12 @@ resource "aws_batch_job_queue" "job_queue" {
   compute_environments = [
     module.batch_compute_environment.arn
   ]
-
-  tags = {
-    environment = "prd"
-    support = "standard"
-  }
-
 }
 
 resource "aws_batch_job_definition" "job_definition" {
   name                 = "${var.name}-job-definition"
   type                 = "container"
   container_properties = var.container_properties
-
-  tags = {
-    environment = "prd"
-    support = "standard"
-  }
-
 }
 
 # Inlined [4] because it is outdated and made the following changes:
