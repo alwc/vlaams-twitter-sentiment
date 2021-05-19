@@ -15,12 +15,24 @@ terraform {
 # The workspace account in which we will create (almost) all resources.
 provider "aws" {
   region = var.region
+  default_tags {
+    tags = {
+    environment = "prd"
+    support = "standard"
+    }
+  }
 }
 
 # Alternate workspace account region necessary for https certificates only, should be us-east-1.
 provider "aws" {
   alias  = "us_east_1"
   region = "us-east-1"
+  default_tags {
+    tags = {
+    environment = "prd"
+    support = "standard"
+    }
+  }
 }
 
 # Resources
