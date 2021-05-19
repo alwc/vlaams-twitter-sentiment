@@ -38,6 +38,12 @@ resource "aws_acm_certificate" "https_certificate" {
   subject_alternative_names = [for tuple in slice(var.domains, 1, length(var.domains)) : tuple.domain]
   validation_method         = "DNS"
 
+  tags = {
+    Name        = "tome-sb-my-first-terra-codepipeline-artifacts"
+    environment = "prd"
+    support = "standard"
+  }
+
   lifecycle {
     create_before_destroy = true
   }
