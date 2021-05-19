@@ -39,7 +39,7 @@ resource "aws_acm_certificate" "https_certificate" {
   validation_method         = "DNS"
 
   tags = {
-    Name        = "tome-sb-my-first-terra-codepipeline-artifacts"
+    Name        = "twittersentiment.statistiekvlaanderen.be"
     environment = "prd"
     support = "standard"
   }
