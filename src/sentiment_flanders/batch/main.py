@@ -85,7 +85,7 @@ def fetch_and_process(
     processed = processed_temp
     print(f"Total of {len(processed)} left after duplicate removal")
 
-    # Backup the tweets to S3
+    # Backup the tweets to S3 - twittersentimentbucket
     s3_resource = boto3.resource('s3')
     s3_resource.Object(
             'default-twittersentiment-data',
