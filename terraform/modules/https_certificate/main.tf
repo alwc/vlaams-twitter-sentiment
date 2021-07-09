@@ -41,7 +41,7 @@ resource "aws_acm_certificate" "https_certificate" {
   tags = {
     Name        = "twittersentiment.statistiekvlaanderen.be"
     environment = "prd"
-    support = "standard"
+    support     = "standard"
   }
 
   lifecycle {

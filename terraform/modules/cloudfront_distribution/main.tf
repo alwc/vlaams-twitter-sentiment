@@ -89,7 +89,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   tags = {
     Name        = "twittersentiment.statistiekvlaanderen.be Cloudfront distribution"
     environment = "prd"
-    support = "standard"
+    support     = "standard"
   }
 
 

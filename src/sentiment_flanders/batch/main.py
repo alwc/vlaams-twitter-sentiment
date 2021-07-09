@@ -8,7 +8,7 @@ from pathlib import Path
 from time import sleep
 
 import boto3
-from twitter_sentiment_classifier import batch_predict
+from twitter_sentiment_classifier import SentimentModel, batch_predict
 
 from .dynamodb import get_daily, put_batch, put_item
 from .twitter_api import fetch, get_ending_timestamps, get_utc_offset
@@ -51,6 +51,12 @@ def fetch_and_process(
             for k, v in credentials.items():
                 os.environ[k] = v
 
+    # Load in model first
+    model = SentimentModel()
+
+    # Connect to S3 bucket
+    s3_resource = boto3.resource('s3')
+
     # Get all (16) timestamps for which a fetch is performed
     timestamps = get_ending_timestamps()
 
@@ -86,7 +92,6 @@ def fetch_and_process(
     print(f"Total of {len(processed)} left after duplicate removal")
 
     # Backup the tweets to S3 - twittersentimentbucket
-    s3_resource = boto3.resource('s3')
     s3_resource.Object(
             'default-twittersentiment-data',
             f'backup/{(datetime.today() - timedelta(days=2)).strftime("%Y-%m-%d")}.pickle',
@@ -95,7 +100,7 @@ def fetch_and_process(
 
     # Predict sentiment for every tweet using the SentimentModel (takes ~30min for all 8000 tweets)
     texts = [tweet['text'] for tweet in processed]
-    predictions = batch_predict(texts)
+    predictions = batch_predict(texts, model=model)
     assert len(predictions) == len(processed)
     print(f"Predicted {len(predictions)} predictions")
 

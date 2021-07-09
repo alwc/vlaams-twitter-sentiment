@@ -36,9 +36,10 @@ def process_historical(
     my_bucket = s3_resource.Bucket(
             'default-twittersentiment-data',
     )
-    for my_bucket_object in my_bucket.objects.filter(Prefix='backup/').all():
+    for my_bucket_object in my_bucket.objects.filter(Prefix='backup/2').all():
         print(f"Processing {my_bucket_object.key}")
-        processed = pickle.loads(my_bucket_object.get()['Body'].read())
+        contents = my_bucket_object.get()['Body'].read()
+        processed = pickle.loads(contents)
 
         # Predict sentiment for every tweet using the SentimentModel (takes ~30min for all 8000 tweets)
         texts = [tweet['text'] for tweet in processed]

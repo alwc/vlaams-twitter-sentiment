@@ -68,7 +68,7 @@ resource "aws_s3_bucket" "instance" {
 
   tags = {
     environment = "prd"
-    support = "standard"
+    support     = "standard"
   }
 
 
